@@ -1,6 +1,4 @@
-# OrchestrAIte: AI-Powered Instrument Identification
-
-OrchestrAIte is an AI-powered system that analyzes `.wav` audio files and identifies the instruments being played. It leverages deep learning techniques to process music data efficiently.
+# OrchestrAIte: Instrument Classification
 
 ## Table of Contents
 - [Overview](#overview)
