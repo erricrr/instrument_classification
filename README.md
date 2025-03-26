@@ -68,8 +68,11 @@ pip install -r requirements.txt
 7. Horn
 
 **Preprocessing**: Exploratory data analysis, data cleaning, and feature extraction
+
 **Model**: Custom CNN for multi-label classification trained on 24,000+ samples
+
 **Input**: `.wav` audio files converted into log-mel spectrograms
+
 **Output**: Instrument identification
 
 ## Limitations
