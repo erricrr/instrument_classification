@@ -37,13 +37,13 @@ pip install -r requirements.txt
 
 ## Usage
 
-### Load and Run Locally
+### Set Up and Run Locally
 
-1. Start the FastAPI server using Uvicorn, run the following command in one terminal:
+1. Open a terminal and start the FastAPI server using Uvicorn:
    ```sh
    uvicorn api.fast_api:app --reload
    ```
-2. Run Streamlit in a different terminal:
+2. In a separate terminal, start the Streamlit application:
    ```sh
    streamlit run interface/app.py
    ```
@@ -55,7 +55,6 @@ pip install -r requirements.txt
 3. Deploy the FastAPI backend to Cloud Run.
 4. Update `API_URL` in `interface/app.py`.
 5. Test the deployed API.
-
 
 
 ## UI Screenshots
