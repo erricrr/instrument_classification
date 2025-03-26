@@ -26,7 +26,9 @@ OrchestrAIte processes raw `.wav` audio input, extracts features, and predicts m
 
 ### Clone the Repository
 
-Create a virtual environment before cloning the repository:
+Create a virtual environment before cloning the repository.
+
+Clone the repository:
 ```sh
 gh repo clone erricrr/instrument_classification
 ```
