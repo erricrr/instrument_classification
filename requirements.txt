@@ -3,6 +3,7 @@ numpy==1.26.4
 pandas==2.2.3
 scipy==1.14.1
 scikit-learn==1.4.2
+tensorflow==2.18.0
 
 # Audio Processing
 librosa==0.10.2.post1
@@ -11,10 +12,7 @@ librosa==0.10.2.post1
 streamlit==1.33.0
 fastapi==0.110.0
 uvicorn==0.28.0
-python-multipart==0.0.9
-
-# Machine Learning
-tensorflow==2.18.0
+python-multipart==0.0.19
 
 # Visualization and Image Processing
 matplotlib==3.8.3
