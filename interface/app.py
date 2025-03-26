@@ -6,8 +6,14 @@ import librosa
 import numpy as np
 from pathlib import Path
 
-# API_URL = "http://localhost:8000/predict"
-API_URL = "https://int-class-719648460452.europe-west2.run.app/predict"
+# Set page config to wide mode to allow more horizontal space
+st.set_page_config(layout="wide")
+
+# Local API URL
+API_URL = "http://localhost:8000/predict"
+
+# # GCP API URL INACTIVE DUE TO BILLING
+# API_URL = "https://instrument_classification-719648460452.europe-west2.run.app/predict"
 
 
 # Convert image file to base64 for display
@@ -33,15 +39,32 @@ def detect_tempo(audio_file):
     return tempo
 
 # Display predictions
-# Display predictions
 def display_predictions(predicted_instruments, instrument_data, tempo, rotate):
     if not predicted_instruments:
         st.write("No instruments predicted.")
         return
 
-    rotation_speed = np.clip(tempo / 60, 0.1, 2)
+    # Ensure tempo is a valid number
+    if tempo is None or tempo <= 0:
+        tempo = 60  # Default to 60 BPM if invalid
 
-    cols = st.columns(len(predicted_instruments))
+    # Get the current flip state
+    is_flipped = st.session_state.get('all_flipped', False)
+
+    # Define the transform style based on flip state
+    transform_style = "rotateY(180deg)" if is_flipped else "rotateY(0deg)"
+
+    # Always use a single row with consistent card size
+    num_instruments = len(predicted_instruments)
+
+    # Create a single row of columns
+    cols = st.columns(num_instruments)
+
+    # Use consistent card size regardless of instrument count
+    card_width = 238
+    card_height = 438
+    font_size = 24
+
     for col, instrument_info in zip(cols, predicted_instruments):
         instrument_name = instrument_info.get("instrument")
         probability = instrument_info.get("probability", 0)
@@ -54,22 +77,26 @@ def display_predictions(predicted_instruments, instrument_data, tempo, rotate):
             base64_back = convert_image_to_base64(file_path_v2)
 
             with col:
-                animation_style = f"animation: rotate {rotation_speed}s infinite alternate ease-in-out;" if rotate else ""
+                # Create different hover behavior based on flipped state
+                hover_css = """
+                    .flip-card:hover .flip-card-inner {
+                        transform: rotateY(0deg) !important;
+                    }
+                """ if is_flipped else """
+                    .flip-card:hover .flip-card-inner {
+                        transform: rotateY(180deg) !important;
+                    }
+                """
+
                 st.markdown(
                     f"""
                     <style>
-                        @keyframes rotate {{
-                            0% {{ transform: rotateY(0deg); }}
-                            25% {{ transform: rotateY(30deg); }}
-                            75% {{ transform: rotateY(-30deg); }}
-                            100% {{ transform: rotateY(0deg); }}
-                        }}
                         .flip-card {{
                             background-color: transparent;
-                            width: 238px;
-                            height: 438px;
+                            width: {card_width}px;
+                            height: {card_height}px;
                             perspective: 1000px;
-                            margin: 25px auto;
+                            margin: 10px auto;
                             border-radius: 10px;
                         }}
                         .flip-card-inner {{
@@ -79,10 +106,9 @@ def display_predictions(predicted_instruments, instrument_data, tempo, rotate):
                             text-align: center;
                             transform-style: preserve-3d;
                             transition: transform 0.6s;
+                            transform: {transform_style};
                         }}
-                        .flip-card:hover .flip-card-inner {{
-                            transform: rotateY(180deg);
-                        }}
+                        {hover_css}
                         .flip-card-front, .flip-card-back {{
                             position: absolute;
                             width: 100%;
@@ -108,15 +134,16 @@ def display_predictions(predicted_instruments, instrument_data, tempo, rotate):
                             border-radius: 10px;
                         }}
                         .instrument-info {{
-                            margin-top: 10px;
-                            font-size: 24px;
+                            margin-top: 8px;
+                            font-size: {font_size}px;
                             font-weight: bold;
                             text-align: center;
-                            line-height: 1.5;
+                            line-height: 1.3;
+                            margin-bottom: 15px;
                         }}
                     </style>
                     <div class="flip-card">
-                        <div class="flip-card-inner" style="{animation_style}">
+                        <div class="flip-card-inner">
                             <div class="flip-card-front">
                                 <img src="data:image/png;base64,{base64_front}" alt="Instrument Image Front" />
                             </div>
@@ -125,9 +152,9 @@ def display_predictions(predicted_instruments, instrument_data, tempo, rotate):
                             </div>
                         </div>
                     </div>
-                    <div class="instrument-info" style="font-size: 30px; font-weight: bold; text-align: center; line-height: 1.5; margin-bottom: 30px;">
+                    <div class="instrument-info">
                         {instrument_name}<br>
-                    <span style="font-size: 24px; font-weight: normal;">(prob: {probability:.1f}%)</span>
+                        (prob: {probability:.1f}%)
                     </div>
                     """,
                     unsafe_allow_html=True,
@@ -136,7 +163,7 @@ def display_predictions(predicted_instruments, instrument_data, tempo, rotate):
 
 # Main Streamlit app
 def main():
-    # Custom CSS to change the font to Lexend
+    # Define and apply custom CSS for styling
     custom_css = """
     <style>
     @import url('https://fonts.googleapis.com/css2?family=Lexend:wght@400&display=swap');
@@ -146,71 +173,53 @@ def main():
     }
 
     .stButton > button {
-        font-size: 1.5em; /* Adjust the font size for all buttons */
-        padding: 10px 20px; /* Adjust padding for better visual alignment */
+        font-size: 1.5em;
+        padding: 10px 20px;
     }
 
     .stButton.animate-play-pause > button {
-        margin-top: 10px; /* Add margin-top specifically to the Animate Play/Pause button */
+        margin-top: 10px;
     }
-    </style>
-    """
-    # Apply the custom CSS
-    st.markdown(custom_css, unsafe_allow_html=True)
 
-    st.markdown(
-        """
-        <style>
-        .stApp { background-color: #FEFFEF; }
-        .stFileUploader > label { border-radius: 10px; padding: 10px; }
-        .stButton > button {
-            display: block;
-            margin: 30px auto;
-            background-color: #ffe433;
-            font-size: 1.5em !important; /* Override font size for buttons */
-            padding: 15px 30px;
-        }
+    .stApp { background-color: #FEFFEF; }
+    .stFileUploader > label { border-radius: 10px; padding: 10px; }
+    .stButton > button {
+        display: block;
+        margin: 30px auto;
+        background-color: #ffe433;
+        font-size: 1.5em !important;
+        padding: 15px 30px;
+    }
 
-        </style>
-        """,
-        unsafe_allow_html=True,
-    )
-
-    st.markdown(
-    """
-    <h1 style="text-align: center;">OrchestrAIte</h1>
-    """,
-    unsafe_allow_html=True
-    )
-
-    st.markdown(
-    """
-    <style>
     .custom-text {
         text-align: center;
         font-size: 1.5em;
         margin-bottom: 1em;
     }
     </style>
-    """,
-    unsafe_allow_html=True,
-    )
+    """
+    st.markdown(custom_css, unsafe_allow_html=True)
 
-    st.markdown('<div class="custom-text">Envoke your sense of musical virtuosity and mastery</div>', unsafe_allow_html=True)
 
+    # Display headers
+    st.markdown("<h1 style='text-align: center;'>OrchestrAIte</h1>", unsafe_allow_html=True)
+    st.markdown('<div class="custom-text">Experience Classical Instrument Identification</div>', unsafe_allow_html=True)
+
+    # Load instrument data
     instrument_data = load_instruments("interface/instruments.json")
 
     # Initialize session state variables
-    if 'is_playing' not in st.session_state:
-        st.session_state.is_playing = False
-    if 'prediction_made' not in st.session_state:
-        st.session_state.prediction_made = False
-    if 'prediction' not in st.session_state:
-        st.session_state.prediction = []
-    if 'tempo' not in st.session_state:
-        st.session_state.tempo = None
-    if 'current_file' not in st.session_state:
-        st.session_state.current_file = None
+    session_state_defaults = {
+        'is_playing': False,
+        'prediction_made': False,
+        'prediction': [],
+        'tempo': None,
+        'current_file': None,
+        'all_flipped': False, # New single state for all flipped cards
+    }
+    for key, value in session_state_defaults.items():
+        if key not in st.session_state:
+            st.session_state[key] = value
 
     uploaded_file = st.file_uploader("Choose a .wav file", type=["wav"])
 
@@ -220,31 +229,51 @@ def main():
         st.session_state.prediction = []
         st.session_state.tempo = None
         st.session_state.current_file = uploaded_file
+        st.session_state.all_flipped = False
 
     if uploaded_file is not None:
         st.audio(uploaded_file)
 
-        if st.button("Prediction"):
-            st.session_state.tempo = detect_tempo(uploaded_file)
-            try:
-                files = {"file": uploaded_file.getvalue()}
-                response = requests.post(API_URL, files=files)
-                if response.status_code == 200:
-                    st.session_state.prediction = response.json().get("predictions", [])
-                    st.session_state.prediction_made = True
-                else:
-                    st.error("Error fetching predictions from the API")
-            except Exception as e:
-                st.error(f"Error with the prediction request: {e}")
+        # Create placeholder for prediction button that will disappear after use
+        prediction_button_placeholder = st.empty()
 
+        # Show Prediction button only if no prediction has been made yet
+        if not st.session_state.prediction_made:
+            with prediction_button_placeholder:
+                # IMPORTANT: Explicitly show the Prediction button
+                prediction_button = st.button("Identify Instruments", key="prediction_button")
+
+                # Handle Prediction button click
+                if prediction_button:
+                    with st.spinner("Wait for it..."):
+                        st.session_state.tempo = detect_tempo(uploaded_file)
+                        try:
+                            response = requests.post(API_URL, files={"file": uploaded_file.getvalue()})
+                            if response.status_code == 200:
+                                st.session_state.prediction = response.json().get("predictions", [])
+                                st.session_state.prediction_made = True
+                            else:
+                                st.error("Error fetching predictions from the API")
+                        except Exception as e:
+                            st.error(f"Error with the prediction request: {e}")
+
+                        # Clear the prediction button container after prediction is made
+                        prediction_button_placeholder.empty()
+
+                        # Force a rerun to display predictions immediately
+                        st.experimental_rerun()
+
+        # If predictions are available, show them
         if st.session_state.prediction_made:
+            # Display predictions
             display_predictions(st.session_state.prediction, instrument_data, st.session_state.tempo, st.session_state.is_playing)
 
-            # Add specific class to the Play/Pause button to target its style
-            if st.button("Animate Play/Pause", key="play_pause"):
-                st.session_state.is_playing = not st.session_state.is_playing  # Toggle play/pause state
+            # Add Flip All Cards button AFTER displaying predictions
+            flip_button = st.button("Flip All", key="flip_all_btn")
+            if flip_button:
+                # Simply toggle the flipped state
+                st.session_state.all_flipped = not st.session_state.all_flipped
                 st.experimental_rerun()
-
 
 if __name__ == "__main__":
     main()
