@@ -104,7 +104,7 @@ Here are some screenshots of the user interface:
 
 **Preprocessing**: Exploratory data analysis, data cleaning, and feature extraction
 
-**Model**: Custom CNN for multi-label classification trained on 242000+ samples
+**Model**: Custom CNN for multi-label classification
 
 **Input**: `.wav` audio files converted into log-mel spectrograms
 
