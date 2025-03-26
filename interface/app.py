@@ -261,7 +261,7 @@ def main():
                         prediction_button_placeholder.empty()
 
                         # Force a rerun to display predictions immediately
-                        st.experimental_rerun()
+                        st.rerun()
 
         # If predictions are available, show them
         if st.session_state.prediction_made:
@@ -273,7 +273,7 @@ def main():
             if flip_button:
                 # Simply toggle the flipped state
                 st.session_state.all_flipped = not st.session_state.all_flipped
-                st.experimental_rerun()
+                st.rerun()
 
 if __name__ == "__main__":
     main()
