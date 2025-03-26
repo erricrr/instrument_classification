@@ -16,8 +16,8 @@ model = model_loader.load_model()
 @app.post("/predict")
 async def predict(file: UploadFile = File(...)):
     """
-    This endpoint handles the actual instrument detection. We keep it because it's our main
-    functionality - it receives audio files and returns predictions using our model.
+    This endpoint handles the instrument identification.
+    It receives audio files and returns predictions using the model.
     """
 
     unique_instruments = [1, 41, 42, 43, 61, 71, 72]
@@ -63,20 +63,26 @@ async def predict(file: UploadFile = File(...)):
         raise HTTPException(status_code=500, detail=str(e))
 
 
-
 @app.get("/")
 async def root():
     """
-    We keep this endpoint as a health check - it lets users verify the API is running
-    and helps with debugging. Think of it like a doorbell - it lets you know the
-    system is powered on and responsive.
+    This endpoint lets users verify the API is running and helps with debugging.
     """
     print(model)
     return {"message": "Instrument Classifier API is running"}
 
 
+def extract_mel_spectrogram(file_path):
+    """
+    Extract Mel-spectrogram from the audio file.
+    """
+    y, sr = librosa.load(file_path, sr=None, duration=5.0)  # Limit to 5 seconds to keep data consistent
+    mel_spec = librosa.feature.melspectrogram(y=y, sr=sr, n_mels=128, fmax=8000)
+    mel_spec_db = librosa.power_to_db(mel_spec, ref=np.max)  # Convert to decibels for better visualization
+    return mel_spec_db
 
-def predict_instruments(file_path, model, mlb, thresh=0.5):
+
+def predict_instruments(file_path, model, mlb, thresh=0.45):
     """
     Predict instruments from the audio file and return the probabilities.
     """
@@ -85,7 +91,6 @@ def predict_instruments(file_path, model, mlb, thresh=0.5):
 
     # Reshape spectrogram to match model input shape
     mel_spec = np.expand_dims(mel_spec, axis=-1)  # Add channel dimension
-    #mel_spec = np.expand_dims(mel_spec, axis=0)   # Add batch dimension
     mel_spec = tf.keras.preprocessing.sequence.pad_sequences([mel_spec],
                                                               padding="post",
                                                               dtype="float32",
@@ -93,7 +98,7 @@ def predict_instruments(file_path, model, mlb, thresh=0.5):
 
     # Predict the instruments and their probabilities
     prediction = model.predict(mel_spec)  # The shape of 'prediction' should be (1, num_classes)
-     # Filter predictions by the threshold
+
     # Filter predictions by the threshold
     predictions_with_probs = [
         (mlb.classes_[idx], prob)
@@ -102,12 +107,3 @@ def predict_instruments(file_path, model, mlb, thresh=0.5):
     ]
 
     return predictions_with_probs
-
-
-
-#Function to extract Mel-spectrogram from the audio file
-def extract_mel_spectrogram(file_path):
-    y, sr = librosa.load(file_path, sr=None, duration=5.0)  # Limit to 5 seconds to keep data consistent
-    mel_spec = librosa.feature.melspectrogram(y=y, sr=sr, n_mels=128, fmax=8000)
-    mel_spec_db = librosa.power_to_db(mel_spec, ref=np.max)  # Convert to decibels for better visualization
-    return mel_spec_db
