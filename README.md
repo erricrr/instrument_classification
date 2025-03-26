@@ -25,8 +25,13 @@ OrchestrAIte processes raw `.wav` audio input, extracts features, and predicts m
 ## Installation
 
 ### Clone the Repository
+
+Clone the repository:
 ```sh
 gh repo clone erricrr/instrument_classification
+```
+Navigate to the project directory:
+```sh
 cd instrument_classification
 ```
 
@@ -39,11 +44,11 @@ pip install -r requirements.txt
 
 ### Set Up and Run Locally
 
-1. Open a terminal and start the FastAPI server using Uvicorn:
+Open a terminal and start the FastAPI server using Uvicorn:
    ```sh
    uvicorn api.fast_api:app --reload
    ```
-2. In a separate terminal, start the Streamlit application:
+In a separate terminal, start the Streamlit application:
    ```sh
    streamlit run interface/app.py
    ```
@@ -63,22 +68,22 @@ User interface screenshots (click to enlarge):
 <table style="border-collapse: collapse; border: none;">
   <tr>
     <td style="padding: 0;">
-      <a href="ui_screenshots/screenshot-1.png" target="_blank">
+      <a href="ui_screenshots/screenshot-1.png">
         <img src="ui_screenshots/screenshot-1.png" width="200">
       </a>
     </td>
     <td style="padding: 0;">
-      <a href="ui_screenshots/screenshot-2.png" target="_blank">
+      <a href="ui_screenshots/screenshot-2.png">
         <img src="ui_screenshots/screenshot-2.png" width="200">
       </a>
     </td>
     <td style="padding: 0;">
-      <a href="ui_screenshots/screenshot-3.png" target="_blank">
+      <a href="ui_screenshots/screenshot-3.png">
         <img src="ui_screenshots/screenshot-3.png" width="200">
       </a>
     </td>
     <td style="padding: 0;">
-      <a href="ui_screenshots/screenshot-4.png" target="_blank">
+      <a href="ui_screenshots/screenshot-4.png">
         <img src="ui_screenshots/screenshot-4.png" width="200">
       </a>
     </td>
