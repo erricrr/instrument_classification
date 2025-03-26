@@ -6,6 +6,7 @@ OrchestrAIte is an AI-powered system that analyzes `.wav` audio files and identi
 - [Overview](#overview)
 - [Installation](#installation)
 - [Usage](#usage)
+- [UI Screenshots](#ui-screenshots)
 - [Model and Data](#model-and-data)
 - [Performance](#performance)
 - [Contributors](#contributors)
@@ -36,15 +37,15 @@ pip install -r requirements.txt
 
 ## Usage
 
-### Run Locally
+### Load and Run Locally
 
-1. Start the FastAPI backend:
+1. Start the FastAPI server using Uvicorn, run the following command in one terminal:
    ```sh
    uvicorn api.fast_api:app --reload
    ```
-2. Run the Streamlit interface in another terminal:
+2. Run Streamlit in a different terminal:
    ```sh
-   python -m streamlit run interface/app.py
+   streamlit run interface/app.py
    ```
 
 ### Run with Docker
@@ -54,6 +55,41 @@ pip install -r requirements.txt
 3. Deploy the FastAPI backend to Cloud Run.
 4. Update `API_URL` in `interface/app.py`.
 5. Test the deployed API.
+
+
+
+## UI Screenshots
+
+Here are some screenshots of the user interface:
+<table style="border-collapse: collapse; border: none;">
+  <tr>
+    <td style="padding: 0;">
+      <a href="ui_screenshots/screenshot-1.png" target="_blank">
+        <img src="ui_screenshots/screenshot-1.png" width="200">
+      </a>
+    </td>
+    <td style="padding: 0;">
+      <a href="ui_screenshots/screenshot-2.png" target="_blank">
+        <img src="ui_screenshots/screenshot-2.png" width="200">
+      </a>
+    </td>
+    <td style="padding: 0;">
+      <a href="ui_screenshots/screenshot-3.png" target="_blank">
+        <img src="ui_screenshots/screenshot-3.png" width="200">
+      </a>
+    </td>
+    <td style="padding: 0;">
+      <a href="ui_screenshots/screenshot-4.png" target="_blank">
+        <img src="ui_screenshots/screenshot-4.png" width="200">
+      </a>
+    </td>
+  </tr>
+</table>
+
+<!-- ![Screenshot 1](ui_screenshots/screenshot-1.png)
+![Screenshot 2](ui_screenshots/screenshot-2.png)
+![Screenshot 3](ui_screenshots/screenshot-3.png)
+![Screenshot 4](ui_screenshots/screenshot-4.png) -->
 
 ## Model and Data
 
@@ -69,7 +105,7 @@ pip install -r requirements.txt
 
 **Preprocessing**: Exploratory data analysis, data cleaning, and feature extraction
 
-**Model**: Custom CNN for multi-label classification trained on 24,000+ samples
+**Model**: Custom CNN for multi-label classification trained on 242000+ samples
 
 **Input**: `.wav` audio files converted into log-mel spectrograms
 
@@ -88,6 +124,16 @@ The model was evaluated on the test set with the following results:
 **Recall:** 95.6%
 
 While the model performs well on the test set, real-world performance may vary depending on the quality and complexity of the input audio.
+
+## UI Screenshots
+
+Here are some screenshots of the user interface:
+
+![Screenshot 1](ui_screenshots/screenshot-1.png)
+![Screenshot 2](ui_screenshots/screenshot-2.png)
+![Screenshot 3](ui_screenshots/screenshot-3.png)
+![Screenshot 4](ui_screenshots/screenshot-4.png)
+
 
 ## Contributors
 
