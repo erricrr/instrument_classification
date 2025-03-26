@@ -59,7 +59,7 @@ pip install -r requirements.txt
 
 ## UI Screenshots
 
-Here are some screenshots of the user interface:
+User interface screenshots (click to enlarge):
 <table style="border-collapse: collapse; border: none;">
   <tr>
     <td style="padding: 0;">
