@@ -125,15 +125,6 @@ The model was evaluated on the test set with the following results:
 
 While the model performs well on the test set, real-world performance may vary depending on the quality and complexity of the input audio.
 
-## UI Screenshots
-
-Here are some screenshots of the user interface:
-
-![Screenshot 1](ui_screenshots/screenshot-1.png)
-![Screenshot 2](ui_screenshots/screenshot-2.png)
-![Screenshot 3](ui_screenshots/screenshot-3.png)
-![Screenshot 4](ui_screenshots/screenshot-4.png)
-
 
 ## Contributors
 
