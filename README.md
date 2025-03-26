@@ -57,7 +57,7 @@ pip install -r requirements.txt
 
 ## Model and Data
 
-- **Dataset**: The training data comes from the [MusicNet dataset on Kaggle](https://www.kaggle.com/datasets/imsparsh/musicnet-dataset), which is pre-split into training and test folders. Although MusicNet contains labels for 11 instruments in the training set, only 7 instruments are labeled in the test set. As a result, the model was trained to identify the following instruments:
+**Dataset**: The training data comes from the [MusicNet dataset on Kaggle](https://www.kaggle.com/datasets/imsparsh/musicnet-dataset), which is pre-split into training and test folders. Although MusicNet contains labels for 11 instruments in the training set, only 7 instruments are labeled in the test set. As a result, the model was trained to identify the following instruments:
 
 1. Piano
 2. Violin
@@ -67,10 +67,10 @@ pip install -r requirements.txt
 6. Clarinet
 7. Horn
 
-- **Preprocessing**: Exploratory data analysis, data cleaning, and feature extraction
-- **Model**: Custom CNN for multi-label classification trained on 24,000+ samples
-- **Input**: `.wav` audio files converted into log-mel spectrograms
-- **Output**: Instrument identification
+**Preprocessing**: Exploratory data analysis, data cleaning, and feature extraction
+**Model**: Custom CNN for multi-label classification trained on 24,000+ samples
+**Input**: `.wav` audio files converted into log-mel spectrograms
+**Output**: Instrument identification
 
 ## Limitations
 
