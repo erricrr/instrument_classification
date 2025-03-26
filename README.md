@@ -8,6 +8,7 @@ OrchestrAIte is an AI-powered system that analyzes `.wav` audio files and identi
 - [Usage](#usage)
 - [Model and Data](#model-and-data)
 - [Deployment](#deployment)
+- [Limitations](#limitations)
 - [Contributors](#contributors)
 
 ## Overview
@@ -76,7 +77,6 @@ pip install -r requirements.txt
 
 - The model is trained only on a subset of instruments from the MusicNet dataset, so it may not recognize all instruments in a given audio file.
 - It may misidentify instruments, especially in complex polyphonic recordings.
-
 
 ## Contributors
 
