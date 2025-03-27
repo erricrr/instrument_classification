@@ -42,24 +42,41 @@ pip install -r requirements.txt
 
 ## Usage
 
-### Set Up and Run Locally
+### Run Locally (without Docker)
 
-Open a terminal and start the FastAPI server using Uvicorn:
+1. Open a terminal and start the **FastAPI** server using **Uvicorn**:
    ```sh
    uvicorn api.fast_api:app --reload
    ```
-In a separate terminal, start the Streamlit application:
+2. In a **separate terminal**, start the **Streamlit** application:
    ```sh
    streamlit run interface/app.py
    ```
 
-### Run with Docker
+### Run Locally with Docker
 
-1. Set up a Google Cloud Project.
-2. Build and push the Docker image.
-3. Deploy the FastAPI backend to Cloud Run.
-4. Update `API_URL` in `interface/app.py`.
-5. Test the deployed API.
+1. **Ensure Docker is running**, then build and start:
+   ```sh
+   docker compose up --build
+   ```
+
+2. Open the **Streamlit** application in your browser:
+   ➡ [http://localhost:8501](http://localhost:8501)
+
+
+3. To **stop and remove** containers:
+   ```sh
+   docker compose down
+   ```
+
+### Deploy to Google Cloud Run with Docker
+
+1. Set up a **Google Cloud Project** and enable **Cloud Run**.
+2. Authenticate with Google Cloud.
+3. Build and push the Docker image to **Artifact Registry**.
+4. Deploy to **Cloud Run**.
+5. Update `API_URL` in `interface/app.py` with the deployed URL.
+6. Test the deployment.
 
 
 ## UI Screenshots
