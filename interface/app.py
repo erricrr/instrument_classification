@@ -12,7 +12,7 @@ st.set_page_config(layout="wide")
 # Local API URL
 API_URL = "http://localhost:8000/predict"
 
-# # GCP API URL INACTIVE DUE TO BILLING
+# # DOCKER DEPLOYMENT - GCP API URL INACTIVE DUE TO BILLING
 # API_URL = "https://instrument_classification-719648460452.europe-west2.run.app/predict"
 
 
