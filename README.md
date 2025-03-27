@@ -60,8 +60,7 @@ pip install -r requirements.txt
    docker compose up --build
    ```
 
-2. Open the **Streamlit** application in your browser:
-   ➡ [http://localhost:8501](http://localhost:8501)
+2. Open the **Streamlit** application in your browser ➡ `http://localhost:8501`
 
 
 3. To **stop and remove** containers:
