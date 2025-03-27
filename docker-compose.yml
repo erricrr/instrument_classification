@@ -1,15 +1,13 @@
-version: '3'
+# version: '3'
 services:
   api:
     build: .
+    container_name: instrument_classification-api
     ports:
-      - "8000:8000"
-    command: uvicorn api_real_models:app --host 0.0.0.0 --reload
-
-  # frontend:
-  #   build: .
-  #   ports:
-  #     - "8501:8501"
-  #   command: streamlit run app.py --server.address 0.0.0.0
-  #   depends_on:
-  #     - api
+      - "8000:8000"  # FastAPI
+      - "8501:8501"  # Streamlit
+    volumes:
+      - .:/app
+    command: >
+      sh -c "uvicorn api.fast_api:app --host 0.0.0.0 --port 8000 &
+             streamlit run /app/interface/app.py --server.port=8501 --server.address=0.0.0.0"
