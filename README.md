@@ -5,7 +5,7 @@
 - [Installation](#installation)
 - [Usage](#usage)
 - [UI Screenshots](#ui-screenshots)
-- [Model and Data](#model-and-data)
+- [Dataset](#dataset)
 - [Performance](#performance)
 - [Contributors](#contributors)
 
@@ -105,9 +105,9 @@ User interface screenshots (click to enlarge):
 ![Screenshot 3](ui_screenshots/screenshot-3.png)
 ![Screenshot 4](ui_screenshots/screenshot-4.png) -->
 
-## Model and Data
+## Dataset
 
-**Dataset**: The training data comes from the [MusicNet dataset on Kaggle](https://www.kaggle.com/datasets/imsparsh/musicnet-dataset), which is pre-split into training and test folders. Although MusicNet contains labels for 11 instruments in the training set, only 7 instruments are labeled in the test set. As a result, the model was trained to identify the following instruments:
+The training data comes from the **MusicNet** dataset on **Kaggle**, which is pre-split into training and test folders. Although MusicNet contains labels for 11 instruments in the training set, only 7 instruments are labeled in the test set. As a result, the model was trained to identify the following instruments:
 
 1. Piano
 2. Violin
@@ -116,14 +116,6 @@ User interface screenshots (click to enlarge):
 5. Bassoon
 6. Clarinet
 7. Horn
-
-**Preprocessing**: Exploratory data analysis, data cleaning, and feature extraction
-
-**Model**: Custom CNN for multi-label classification
-
-**Input**: `.wav` audio files converted into log-mel spectrograms
-
-**Output**: Instrument identification
 
 ## Performance
 
