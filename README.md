@@ -11,7 +11,7 @@
 
 ## Overview
 
-OrchestrAIte processes raw `.wav` audio input, extracts features, and predicts multiple instruments using a convolutional neural network (CNN).
+OrchestrAIte processes `.wav` audio input, extracts features, and identifies multiple instruments using a convolutional neural network (CNN).
 
 ### Key Features
 - Accepts `.wav` audio files as input
