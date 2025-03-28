@@ -29,6 +29,20 @@ def load_instruments(json_file):
     with open(json_file, "r") as f:
         return json.load(f)
 
+# Validate WAV file format
+def validate_wav_format(audio_file):
+    try:
+        y, sr = librosa.load(audio_file, sr=None, mono=False)
+        # Check if sample rate is 44100 Hz
+        if sr != 44100:
+            return False
+        # Check if the audio is mono (single channel)
+        if len(y.shape) > 1 and y.shape[0] > 1:
+            return False
+        return True
+    except Exception:
+        return False
+
 # Detect the tempo from the .wav file using Librosa
 def detect_tempo(audio_file):
     y, sr = librosa.load(audio_file, sr=None)
@@ -216,10 +230,12 @@ def main():
         'tempo': None,
         'current_file': None,
         'all_flipped': False, # New single state for all flipped cards
+        'valid_format': True, # New state for tracking if the uploaded file format is valid
     }
     for key, value in session_state_defaults.items():
         if key not in st.session_state:
             st.session_state[key] = value
+
 
     uploaded_file = st.file_uploader("Choose a .wav file", type=["wav"])
 
@@ -231,7 +247,12 @@ def main():
         st.session_state.current_file = uploaded_file
         st.session_state.all_flipped = False
 
-    if uploaded_file is not None:
+        # Validate WAV format when a new file is uploaded
+        st.session_state.valid_format = validate_wav_format(uploaded_file)
+        if not st.session_state.valid_format:
+            st.error("Sorry, that WAV format is not supported. Please upload a 32-bit PCM, mono WAV file with a 44.1 kHz sample rate.")
+
+    if uploaded_file is not None and st.session_state.valid_format:
         st.audio(uploaded_file)
 
         # Create placeholder for prediction button that will disappear after use
@@ -268,8 +289,8 @@ def main():
             # Display predictions
             display_predictions(st.session_state.prediction, instrument_data, st.session_state.tempo, st.session_state.is_playing)
 
-            # Add Flip All Cards button AFTER displaying predictions
-            flip_button = st.button("Flip All", key="flip_all_btn")
+            # Add Flip all Cards button AFTER displaying predictions
+            flip_button = st.button("Flip", key="flip_all_btn")
             if flip_button:
                 # Simply toggle the flipped state
                 st.session_state.all_flipped = not st.session_state.all_flipped
