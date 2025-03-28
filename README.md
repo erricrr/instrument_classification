@@ -22,18 +22,7 @@ OrchestrAIte processes raw `.wav` audio input, extracts features, and predicts m
 
 ## Installation
 
-### Clone the Repository
-
-Create a virtual environment before cloning the repository.
-
-Clone the repository:
-```sh
-gh repo clone erricrr/instrument_classification
-```
-Navigate to the project directory:
-```sh
-cd instrument_classification
-```
+**Fork** this repository and **clone** it in your **virtual environment**.
 
 ### Install Dependencies
 ```sh
