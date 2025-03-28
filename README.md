@@ -77,6 +77,11 @@ pip install -r requirements.txt
 5. Update `API_URL` in `interface/app.py` with the deployed URL.
 6. Test the deployment.
 
+### Supported WAV File Format
+
+- 32-bit PCM
+- Mono
+- 44.1 kHz sample rate
 
 ## UI Screenshots
 
